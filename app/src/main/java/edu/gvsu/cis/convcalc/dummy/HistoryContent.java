@@ -2,6 +2,8 @@ package edu.gvsu.cis.convcalc.dummy;
 
 import org.joda.time.DateTime;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Map;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class HistoryContent {
+
     public static final List<HistoryItem> ITEMS = new ArrayList<HistoryItem>();
 
     public static void addItem(HistoryItem item) {
@@ -21,27 +24,31 @@ public class HistoryContent {
     }
 
     public static class HistoryItem {
-        public final Double fromVal;
-        public final Double toVal;
-        public final String mode;
-        public final String fromUnits;
-        public final String toUnits;
+        public Double fromVal;
+        public Double toVal;
+        public String mode;
+        public String fromUnits;
+        public String toUnits;
+        public String timestamp;
+        public String _key;
 
-        public final DateTime timestamp;
+        public HistoryItem (){};
 
         public HistoryItem(Double fromVal, Double toVal, String mode,
-                           String fromUnits, String toUnits, DateTime timestamp) {
+                           String fromUnits, String toUnits, String timestamp) {
             this.fromVal = fromVal;
             this.toVal = toVal;
             this.mode = mode;
             this.fromUnits = fromUnits;
             this.toUnits = toUnits;
-            this.timestamp = timestamp;
+            this.timestamp = timestamp.toString();
         }
 
         @Override
         public String toString() {
-            return this.fromVal + " " + this.fromUnits + " = " + this.toVal + " " + this.toUnits;
+            DecimalFormat df = new DecimalFormat("#.###");
+            df.setRoundingMode(RoundingMode.CEILING);
+            return df.format(this.fromVal) + " " + this.fromUnits + " = " + df.format(this.toVal) + " " + this.toUnits;
         }
     }
 }
